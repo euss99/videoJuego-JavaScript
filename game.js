@@ -28,14 +28,25 @@ function setCanvasSize(params) {
 // Función que iniciliza el principio del juego.
 function startGame() {
     
-    game.font = (elementSize - 12) + "px Verdana"; // Tamaño del elemento.
-    game.textAlign = "end";
+    game.font = (elementSize) + "px Verdana"; // Tamaño del elemento.
+    game.textAlign = "end"; // Posición del elemetno.
+
     
-    for (let i = 1; i <= 10; i++) {
-        game.fillText(emojis["X"], elementSize * i, elementSize); // Posición del elemento.
+    // El método .trim() nos ayuda a limpiar los espacios en blanco que se tienen al principio o al final de un arreglo. 
+    // El método .split(), convierte un arreglo en un objeto, dependiendo su parametro (""), (" "), ("\n"), ...
+    // \n es el salto de línea.
+    const map = maps[0];
+    const mapsRows = map.trim().split("\n");
+    const mapsRowsColumns = mapsRows.map(row => row.trim().split(""));
+    console.log({map, mapsRows, mapsRowsColumns});
+
+    // Ciclos for anidados para un array bidimensional.
+    for (let row = 1; row <= 10; row++) /* Fila */ {
+       for (let column = 1; column <= 10; column++) /* Columna */ {
+          game.fillText(emojis[mapsRowsColumns[row - 1][column - 1]], elementSize * column + 9, elementSize * row - 7); // Ubicación de los elementos.
+       }
     }
-    
-    console.log({canvasSize, elementSize});
 }
+
 
 
