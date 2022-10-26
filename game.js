@@ -20,7 +20,7 @@ function setCanvasSize(params) {
   canvas.setAttribute('height', canvasSize);
 
   // Calculando el tamaño de los elementos:
-  elementSize = (canvasSize / 10); // Medida del elemento.
+  elementSize = (canvasSize / 10) - 0.3; // Tamaño del elemento.
 
   startGame();
 }
@@ -32,20 +32,26 @@ function startGame() {
     game.textAlign = "end"; // Posición del elemetno.
 
     
-    // El método .trim() nos ayuda a limpiar los espacios en blanco que se tienen al principio o al final de un arreglo. 
-    // El método .split(), convierte un arreglo en un objeto, dependiendo su parametro (""), (" "), ("\n"), ...
+    // El método .trim() nos ayuda a eliminar los espacios en blanco que se tienen al principio y al final de un STRING. 
+    // El método .split(), convierte un objeto de tipo STRING en un array, dependiendo su parametro (separador) (""), (" "), ("\n"), ...
     // \n es el salto de línea.
-    const map = maps[0];
-    const mapsRows = map.trim().split("\n");
-    const mapsRowsColumns = mapsRows.map(row => row.trim().split(""));
-    console.log({map, mapsRows, mapsRowsColumns});
 
-    // Ciclos for anidados para un array bidimensional.
-    for (let row = 1; row <= 10; row++) /* Fila */ {
-       for (let column = 1; column <= 10; column++) /* Columna */ {
-          game.fillText(emojis[mapsRowsColumns[row - 1][column - 1]], elementSize * column + 9, elementSize * row - 7); // Ubicación de los elementos.
-       }
-    }
+    const map = maps[0];
+    const mapsRows = map.trim().split("\n"); // Creando un array en cada salto de línea. FILAS
+    const mapsRowsColumns = mapsRows.map(row => row.trim().split("")); // Creando un array por cada elemento que haya en el array (array de arrays). COLUMNAS 
+
+    /* mapsRowsColumns[filas1][columnas] */
+    // Método forEach me permite recorrer un array, ademas que nos permite saber cual es el elemento que estamos recorriendo y su vez saber cual es su indice.
+    mapsRowsColumns.forEach( (row, rowIndex) => { 
+      row.forEach( (column, columnIndex) => {
+        const emoji = emojis[column]; // Obteniendo al emoji.
+        const positionX = elementSize * (columnIndex + 1) + 10; 
+        const positionY = elementSize * (rowIndex + 1) - 6; // Coordenada en X y Y del emoji.
+        game.fillText(emoji, positionX, positionY); // Agregando los emojis.
+        console.log({emoji, row, column,rowIndex, columnIndex});
+      });
+    });
+    
 }
 
 
