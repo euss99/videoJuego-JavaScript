@@ -4,11 +4,19 @@ const btnUp = document.querySelector('#up');
 const btnLeft = document.querySelector('#left');
 const btnRight = document.querySelector('#right');
 const btnDown = document.querySelector('#down');
+const spanLives = document.querySelector("#lives");
+const spanTime = document.querySelector("#time");
+const spanRecord = document.querySelector("#record");
+const pResult = document.querySelector("#result");
 
 let canvasSize; // Tamaño del canvas.
 let elementsSize; // Tamaño del elemento (emoji).
 let level = 0; // Enumeración de niveles.
 let lives = 3; // Vidas del jugador.
+
+let timeStart; // Tiempo.
+let timePlayer;
+let timeInterval;
 
 const playerPosition = {
   x: undefined,
@@ -58,12 +66,20 @@ function startGame() {
     return;
   }
 
+  if (!timeStart) {
+    timeStart = Date.now();
+    timeInterval = setInterval(showTime);
+    showRecord();
+  }
+
   const mapRows = map.trim().split('\n'); // Creando un array en cada salto de línea. FILAS
   const mapRowCols = mapRows.map(row => row.trim().split('')); // Creando un array por cada elemento que haya en el array (array de arrays). COLUMNAS 
   // console.log({map, mapRows, mapRowCols});
 
     /* mapsRowsColumns[filas1][columnas] */
     // Método forEach me permite recorrer un array, ademas que nos permite saber cual es el elemento que estamos recorriendo y su vez saber cual es su indice.
+
+    showLives();
   
     enemiesPositions = [];
     game.clearRect(0,0,canvasSize, canvasSize); // Borrando todo lo que esta dentro del canvas.
@@ -129,21 +145,56 @@ function levelWin() {
 
 function levelFail() {
   console.log("Chocaste con una bomba");
+  lives--;
+
   if (lives <= 0) {
     level = 0;
     lives = 3;
+    timeStart = undefined;
   }
-  lives--;
   playerPosition.x = undefined;
   playerPosition.y = undefined;
   startGame();
-  console.log(lives);
 }
 
 function gameWin() {
   console.log();("Felicidades, pasaste todos los niveles!!");
+  clearInterval(timeInterval);
+
+  const recordTime = localStorage.getItem('record_time');
+  const playerTime = ((Date.now() - timeStart) / 1000).toFixed(1);
+
+  if (recordTime) {
+    if (recordTime >= playerTime) {
+      localStorage.setItem('record_time', playerTime);
+      pResult.innerHTML = "Superaste el record 🥳";
+    } else {
+      pResult.innerHTML = "No superaste el record 🙁";
+    }
+  } else {
+    localStorage.setItem('record_time', playerTime);
+    pResult.innerHTML = "Juega por primera vez!! 😁";
+  }
+    console.log({recordTime, playerTime});
 }
 
+function showLives() {
+  const heartsArray = Array(lives).fill(emojis['HEART']); // Creando un array con la cantidad de elementos de lives.
+
+  // console.log(heartsArray);
+  spanLives.innerHTML = "";
+  heartsArray.forEach( heart => spanLives.append(heart)); // Agregando los corazones al HTML.
+
+}
+
+function showTime() {
+  // La función Date.now nos permite imprimir la hora a la que estamos, pero en formato en milisegundos.
+  spanTime.innerHTML = ((Date.now() - timeStart) / 1000).toFixed(1);
+}
+
+function showRecord() {
+  spanRecord.innerHTML = localStorage.getItem("record_time");
+}
 
 window.addEventListener('keydown', moveByKeys);
 btnUp.addEventListener('click', moveUp);
@@ -198,3 +249,25 @@ function moveDown() {
     startGame();
   }
 }
+
+/* 
+setInterval( ) es una función que nos puede ayudar para que se reprodusca por un intervalo de timpo, ejemplo: setInterval( () => console.log("Hola"), 1000); Nos dara como resultado que por cada 1000 milisegundos se imprimira "Hola" en la pantalla.
+Para poder parar esta función, se necesita de otra función llamada clearInterval:
+
+const intervalo = setInterval( () => console.log("Hola"), 1000);
+clearInterval(intervalo);
+*/
+
+// setTimeout () esta función se ejecuta una sola vez despues de que pasen el tiempo establecido, el mismo ejemplo: setTimeout( () => console.log("Hola"), 1000); Nod imprimirá "Hola" en la pantalla despues de que pasen los 1000 milisegundos.
+
+/* 
+  "localStorage" sirve solamente si se esta ejecutando el código JS en un navegador web o que se ejecute junto un HTML.
+  Esto es el almacenamiento local en el navegador, es decir, se le pide al navegador que guarde alguna información por ti.
+
+  - localStorage.getItem es para leer alguna información que tengamos dentro de localStorage. 
+    Ejemplo: localStorage.getItem("Nombre variable").
+  - localStorage.setItem es para guardar una variable por primera vez.
+    Ejemplo: localStorage.setItem("Variable a guardar", "Valor de la variable").
+  - localStorage.removeItem borra las variables guardadas en el   navegador. 
+    Ejemplo: localStorage.removeItem("Nombre variable").
+*/
