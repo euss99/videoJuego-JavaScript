@@ -1,5 +1,9 @@
 const canvas = document.querySelector('#game');
 const game = canvas.getContext('2d'); // Llamando el contexto donde será el juego, en este casó es un juego en 2D (eje X, eje Y).
+const up = document.querySelector("#up")
+const left = document.querySelector("#left")
+const right = document.querySelector("#right")
+const down = document.querySelector("#down")
 
 let canvasSize;
 let elementSize;
@@ -48,11 +52,39 @@ function startGame() {
         const positionX = elementSize * (columnIndex + 1) + 10; 
         const positionY = elementSize * (rowIndex + 1) - 6; // Coordenada en X y Y del emoji.
         game.fillText(emoji, positionX, positionY); // Agregando los emojis.
-        console.log({emoji, row, column,rowIndex, columnIndex});
       });
     });
-    
 }
 
+up.addEventListener("click", moveUp); // Presionando el boton.
+left.addEventListener("click", moveLeft);
+right.addEventListener("click", moveRight);
+down.addEventListener("click", moveDown);
 
+window.addEventListener("keydown", moveByKeys); // Presionando el teclado.
+
+function moveUp(event) {
+  console.log("Arriba");
+}
+function moveLeft(event) {
+  console.log("Izquierda");
+}
+function moveRight(event) {
+  console.log("Derecha");
+}
+function moveDown(event) {
+  console.log("Abajo");
+}
+
+function moveByKeys(event) {
+  if (event.key == "ArrowUp") {
+    moveUp();
+  } else if (event.key == "ArrowRight") {
+    moveRight();
+  } else if (event.key == "ArrowLeft") {
+    moveLeft();
+  } else if (event.key == "ArrowDown") {
+    moveDown();
+  }
+}
 
