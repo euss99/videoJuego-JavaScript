@@ -5,10 +5,16 @@ const left = document.querySelector("#left")
 const right = document.querySelector("#right")
 const down = document.querySelector("#down")
 
-let canvasSize;
-let elementSize;
+let canvasSize; // Tamaño del canvas.
+let elementSize; // Tamaño del elemento (emoji).
+
+const playerPosition = {
+  x: undefined,
+  y: undefined,
+}
 
 window.addEventListener('load', setCanvasSize); // window es la ventana del HTML, el "load" significa que apenas cargue la página, se ejecutará la función startGame.
+
 window.addEventListener('resize', setCanvasSize); // Con "resize" ya no es necesario recargar la página para ver los cambios de tamaño.
 
 function setCanvasSize(params) {
@@ -46,14 +52,34 @@ function startGame() {
 
     /* mapsRowsColumns[filas1][columnas] */
     // Método forEach me permite recorrer un array, ademas que nos permite saber cual es el elemento que estamos recorriendo y su vez saber cual es su indice.
+
+    game.clearRect(0,0, canvasSize, canvasSize); // Borrando todo lo que esta dentro del canvas.
+
     mapsRowsColumns.forEach( (row, rowIndex) => { 
       row.forEach( (column, columnIndex) => {
         const emoji = emojis[column]; // Obteniendo al emoji.
         const positionX = elementSize * (columnIndex + 1) + 10; 
         const positionY = elementSize * (rowIndex + 1) - 6; // Coordenada en X y Y del emoji.
+
+        // Ubicación del jugador, se ubica justo con el emoji "O", ya que el jugador empieza en la puerta.
+        if (column == "O") {
+          if (!playerPosition.x && !playerPosition.y) {
+            playerPosition.x = positionX;
+            playerPosition.y = positionY;
+            console.log(playerPosition);
+          }
+        }
+
         game.fillText(emoji, positionX, positionY); // Agregando los emojis.
+
       });
     });
+
+    movePlayer();
+}
+
+function movePlayer() {
+  game.fillText(emojis["PLAYER"], playerPosition.x , playerPosition.y); // Agregango al jugador.
 }
 
 up.addEventListener("click", moveUp); // Presionando el boton.
@@ -65,15 +91,44 @@ window.addEventListener("keydown", moveByKeys); // Presionando el teclado.
 
 function moveUp(event) {
   console.log("Arriba");
+  // Limitando el movimiento del jugador al canvas.
+  if ((playerPosition.y - elementSize) < 0) {
+    console.log("Out");
+  } else {
+    playerPosition.y -= elementSize;
+    startGame();
+  }
 }
 function moveLeft(event) {
   console.log("Izquierda");
+
+  if ((playerPosition.x - elementSize) < elementSize) {
+    console.log("Out");
+  } else {
+    playerPosition.x -= elementSize;
+    startGame();
+  }
 }
 function moveRight(event) {
   console.log("Derecha");
+
+  if ((playerPosition.x + elementSize) > canvasSize + elementSize) {
+    console.log("Out");
+  } else {
+    playerPosition.x += elementSize;
+    startGame();
+  }
 }
 function moveDown(event) {
   console.log("Abajo");
+
+  if ((playerPosition.y + elementSize) > canvasSize) {
+    console.log("Out");
+  } else {
+    playerPosition.y += elementSize;
+    startGame();
+  }
+
 }
 
 function moveByKeys(event) {
@@ -87,4 +142,3 @@ function moveByKeys(event) {
     moveDown();
   }
 }
-
