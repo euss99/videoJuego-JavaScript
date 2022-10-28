@@ -1,9 +1,11 @@
 const canvas = document.querySelector('#game');
 const game = canvas.getContext('2d'); // Llamando el contexto donde será el juego, en este casó es un juego en 2D (eje X, eje Y).
+const countdownText = document.querySelector('countdown');
 const btnUp = document.querySelector('#up');
 const btnLeft = document.querySelector('#left');
 const btnRight = document.querySelector('#right');
 const btnDown = document.querySelector('#down');
+const btnReset = document.querySelector("#reset");
 const spanLives = document.querySelector("#lives");
 const spanTime = document.querySelector("#time");
 const spanRecord = document.querySelector("#record");
@@ -31,6 +33,12 @@ let enemiesPositions = [];
 window.addEventListener('load', setCanvasSize); // window es la ventana del HTML, el "load" significa que apenas cargue la página, se ejecutará la función startGame.
 window.addEventListener('resize', setCanvasSize); // Con "resize" ya no es necesario recargar la página para ver los cambios de tamaño.
 
+btnReset.addEventListener("click", resetGame);
+
+function resetGame() {
+  location.reload();
+}
+
 function setCanvasSize() {
   // Calculando el tamaño del canvas:
   if (window.innerHeight > window.innerWidth) {
@@ -51,6 +59,7 @@ function setCanvasSize() {
   playerPosition.y = undefined;
 
   startGame();
+  confirm("Quieres empezar a jugar?");
 }
 
 // Función que iniciliza el principio del juego.
@@ -68,6 +77,7 @@ function startGame() {
 
   if (!map) {
     gameWin();
+    alert("Felicidades, acabaste los mapas, pronto se harán más :)")
     return;
   }
 
@@ -164,7 +174,9 @@ function levelFail() {
 }
 
 function gameWin() {
+
   console.log();("Felicidades, pasaste todos los niveles!!");
+
   clearInterval(timeInterval);
 
   const recordTime = localStorage.getItem('record_time');
