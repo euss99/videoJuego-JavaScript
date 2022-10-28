@@ -34,16 +34,21 @@ window.addEventListener('resize', setCanvasSize); // Con "resize" ya no es neces
 function setCanvasSize() {
   // Calculando el tamaño del canvas:
   if (window.innerHeight > window.innerWidth) {
-    canvasSize = window.innerWidth * 0.8;
+    canvasSize = window.innerWidth * 0.7;
   } else {
-    canvasSize = window.innerHeight * 0.8;
+    canvasSize = window.innerHeight * 0.7;
   }
+
+  canvasSize = Number(canvasSize.toFixed(0));
   
   canvas.setAttribute('width', canvasSize);
   canvas.setAttribute('height', canvasSize);
 
   // Calculando el tamaño de los elementos:
   elementsSize = canvasSize / 10;
+
+  playerPosition.x = undefined;
+  playerPosition.y = undefined;
 
   startGame();
 }
@@ -116,6 +121,7 @@ function startGame() {
 }
 
 function movePlayer() {
+  
   const giftCollisionX = playerPosition.x.toFixed(3) == giftPosition.x.toFixed(3);
   const giftCollisionY = playerPosition.y.toFixed(3) == giftPosition.y.toFixed(3);
   const giftCollision = giftCollisionX && giftCollisionY;
@@ -212,7 +218,7 @@ function moveUp() {
   // console.log('Me quiero mover hacia arriba');
 
   // Limitando el movimiento del jugador al canvas.
-  if ((playerPosition.y - elementsSize) < 0) {
+  if ((playerPosition.y - elementsSize).toFixed(5) < 0) {
     console.log('OUT');
   } else {
     playerPosition.y -= elementsSize;
@@ -222,7 +228,7 @@ function moveUp() {
 function moveLeft() {
   // console.log('Me quiero mover hacia izquierda');
 
-  if ((playerPosition.x - elementsSize) < elementsSize) {
+  if ((playerPosition.x - elementsSize).toFixed(5) < elementsSize) {
     console.log('OUT');
   } else {
     playerPosition.x -= elementsSize;
@@ -232,7 +238,7 @@ function moveLeft() {
 function moveRight() {
   // console.log('Me quiero mover hacia derecha');
 
-  if ((playerPosition.x + elementsSize) > canvasSize + elementsSize) {
+  if ((playerPosition.x + elementsSize).toFixed(5) > canvasSize + elementsSize) {
     console.log('OUT');
   } else {
     playerPosition.x += elementsSize;
@@ -242,7 +248,7 @@ function moveRight() {
 function moveDown() {
   // console.log('Me quiero mover hacia abajo');
   
-  if ((playerPosition.y + elementsSize) > canvasSize) {
+  if ((playerPosition.y + elementsSize).toFixed(5) > canvasSize) {
     console.log('OUT');
   } else {
     playerPosition.y += elementsSize;
