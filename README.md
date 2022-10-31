@@ -12,3 +12,7 @@
 <p align="center"> 
     <img  src="https://imagizer.imageshack.com/img922/6567/Lyx1H3.gif" width="550" heigth="400">
 </p>
+
+<p align="center"> 
+    [¡Entra a jugar!](https://euss99.github.io/videoJuego-JavaScript/)
+</p>
