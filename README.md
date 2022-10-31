@@ -14,5 +14,5 @@
 </p>
 
 <p align="center"> 
-    ######¡Entra a jugar!(https://euss99.github.io/videoJuego-JavaScript/)
+    H1 Header (Underline)[¡Entra a jugar!](http://euss99.github.io/videoJuego-JavaScript/ "¡Entra a jugar!")
 </p>
