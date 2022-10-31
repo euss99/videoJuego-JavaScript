@@ -14,5 +14,5 @@
 </p>
 
 <p align="center"> 
-    ¡Entra a jugar!:http://euss99.github.io/videoJuego-JavaScript/
+    ¡Entra a jugar! http://euss99.github.io/videoJuego-JavaScript/
 </p>
