@@ -14,5 +14,5 @@
 </p>
 
 <p align="center"> 
-    [¡Entra a jugar!][https://euss99.github.io/videoJuego-JavaScript/]
+    ######¡Entra a jugar! [Heading link](https://euss99.github.io/videoJuego-JavaScript/)
 </p>
