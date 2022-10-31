@@ -1,6 +1,6 @@
 # videoJuego-JavaScript
 
-<h3> Minijuego online </h3>
+<h3> Juego online </h3>
 
 + Creación de un minijuego creadon con HTML, CSS y JavaScript.
 + En este proyecto se desarrollaron mis habilidades en JavaScript, como lo son:
@@ -14,5 +14,5 @@
 </p>
 
 <p align="center"> 
-    ¡Entra a jugar! http://euss99.github.io/videoJuego-JavaScript/
+   <a href="http://euss99.github.io/videoJuego-JavaScript/" target="_blank">¡Entra a jugar!</a> 
 </p>
